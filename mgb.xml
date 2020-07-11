@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE generatorConfiguration PUBLIC
+ "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+ "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+  <context id="simple" targetRuntime="MyBatis3Simple">
+  	<commentGenerator>
+  	  <!-- 不生成注释 -->
+	  <property name ="suppressAllComments" value ="true"/>
+	</commentGenerator>
+  	
+  	<!-- 配置数据库连接对象 -->
+    <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+        connectionURL="jdbc:mysql://localhost:3306/watches?useUnicode=true&amp;characterEncoding=utf-8&amp;useSSL=false"
+        userId="root"
+        password="1234"/>
+	<!-- 指定JavaBean生成的位置 -->
+    <javaModelGenerator targetPackage="org.everymoment.pojo" targetProject=".\src\main\java">
+      <!-- <property name="enableSubPackages" value="true" />
+      <property name="trimStrings" value="true" /> -->
+    </javaModelGenerator>
+	<!-- 配置SQL映射文件的位置 -->
+    <sqlMapGenerator targetPackage="mapper"  targetProject=".\src\main\resources">
+      <!-- <property name="enableSubPackages" value="true" /> -->
+    </sqlMapGenerator>
+	<!-- 配置dao的位置 -->
+    <javaClientGenerator type="XMLMAPPER" targetPackage="org.everymoment.dao"  targetProject=".\src\main\java">
+      <!-- <property name="enableSubPackages" value="true" /> -->
+    </javaClientGenerator>
+    
+	<!-- 指定每个表的生成策略 
+		要先创建数据库,数据库表
+		tableName:数据库表中的表名
+		domainObjectName：实体类的名称
+	-->
+    <table tableName="checkout" schema="MYSCHEMA" domainObjectName="Checkout"></table>
+  </context>
+</generatorConfiguration>

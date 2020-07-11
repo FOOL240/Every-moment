@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.everymoment.dao.CheckoutMapper">
+  <resultMap id="BaseResultMap" type="org.everymoment.pojo.Checkout">
+    <id column="pid" jdbcType="INTEGER" property="pid" />
+    <result column="Ppicture" jdbcType="VARCHAR" property="ppicture" />
+    <result column="Pname" jdbcType="VARCHAR" property="pname" />
+    <result column="ModelNum" jdbcType="INTEGER" property="modelnum" />
+    <result column="psize" jdbcType="INTEGER" property="psize" />
+    <result column="Pnumber" jdbcType="INTEGER" property="pnumber" />
+    <result column="Pdescribe" jdbcType="VARCHAR" property="pdescribe" />
+    <result column="Pprice" jdbcType="VARCHAR" property="pprice" />
+    <result column="createBy" jdbcType="INTEGER" property="createby" />
+    <result column="CreateTime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="modifyBy" jdbcType="INTEGER" property="modifyby" />
+    <result column="modifyTime" jdbcType="TIMESTAMP" property="modifytime" />
+    <result column="orderId" jdbcType="INTEGER" property="orderid" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from checkout
+    where pid = #{pid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="org.everymoment.pojo.Checkout">
+    insert into checkout (pid, Ppicture, Pname, 
+      ModelNum, psize, Pnumber, 
+      Pdescribe, Pprice, createBy, 
+      CreateTime, modifyBy, modifyTime, 
+      orderId, status)
+    values (#{pid,jdbcType=INTEGER}, #{ppicture,jdbcType=VARCHAR}, #{pname,jdbcType=VARCHAR}, 
+      #{modelnum,jdbcType=INTEGER}, #{psize,jdbcType=INTEGER}, #{pnumber,jdbcType=INTEGER}, 
+      #{pdescribe,jdbcType=VARCHAR}, #{pprice,jdbcType=VARCHAR}, #{createby,jdbcType=INTEGER}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{modifyby,jdbcType=INTEGER}, #{modifytime,jdbcType=TIMESTAMP}, 
+      #{orderid,jdbcType=INTEGER}, #{status,jdbcType=INTEGER})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="org.everymoment.pojo.Checkout">
+    update checkout
+    set status = #{status,jdbcType=VARCHAR},
+    where pid = #{pid,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select pid, Ppicture, Pname, ModelNum, psize, Pnumber, Pdescribe, Pprice, createBy, 
+    CreateTime, modifyBy, modifyTime, orderId, status
+    from checkout
+    where pid = #{pid,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select pid, Ppicture, Pname, ModelNum, psize, Pnumber, Pdescribe, Pprice, createBy, 
+    CreateTime, modifyBy, modifyTime, orderId, status
+    from checkout
+  </select>
+   <insert id="addCheckout" parameterType="org.everymoment.pojo.Checkout">
+		INSERT INTO checkout(pname,Ppicture,pprice,psize,pnumber,orderId,status)
+        VALUES(#{pname},#{Ppicture},#{pprice},#{psize},#{pnumber},#{orderId},#{status})
+	</insert>
+	<!--  
+	<resultMap id="rlist" autoMapping="true" type="Checkout">
+		<association resultMap="ulist" javaType="Product" property="product"/>
+	</resultMap>
+	<resultMap id="ulist" autoMapping="true" type="Product"/> -->
+</mapper>

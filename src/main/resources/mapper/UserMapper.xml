@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.everymoment.dao.UserMapper">
+	<!-- <resultMap type="org.everymoment.pojo.User" id="BaseResultMap">
+		<id column="Uid" jdbcType="INTEGER" property="Uid" />
+		<result column="Uname" jdbcType="VARCHAR" property="Uname" />
+		<result column="Email" jdbcType="VARCHAR" property="Email" />
+		<result column="Password" jdbcType="VARCHAR" property="Password" />
+	</resultMap> -->
+	<insert id="insert" parameterType="org.everymoment.pojo.User">
+		insert into users (Uid,Uname,Email,Password)
+		values(#{uid},#{uname},#{email},#{password})
+	</insert>
+	<!-- 修改密码 -->
+	<update id="UpdateUser" parameterType="org.everymoment.pojo.User">
+    update users
+    set password = #{password,jdbcType=VARCHAR}
+    where email = #{email,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.everymoment.dao.OrderMapper">
+  <resultMap id="BaseResultMap" type="org.everymoment.pojo.Order">
+    <!-- <id column="Oid" jdbcType="INTEGER" property="oid" /> -->
+    <result column="Sname" jdbcType="VARCHAR" property="sname" />
+    <result column="Sphone" jdbcType="VARCHAR" property="sphone" />
+    <result column="SAddress" jdbcType="VARCHAR" property="saddress" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from `order`
+    where Oid = #{oid,jdbcType=INTEGER}
+  </delete>
+  <!-- <insert id="insert" parameterType="org.everymoment.pojo.Order">
+    insert into order (Sname, Sphone,SAddress)
+    values (#{sname,jdbcType=VARCHAR}, #{sphone,jdbcType=VARCHAR},#{saddress,jdbcType=VARCHAR})
+  </insert> -->
+  <update id="updateByPrimaryKey" parameterType="org.everymoment.pojo.Order">
+    update `order`
+    set Sname = #{sname,jdbcType=VARCHAR},
+      Sphone = #{sphone,jdbcType=VARCHAR},
+      SAddress = #{saddress,jdbcType=VARCHAR}
+    where Oid = #{oid,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select Oid, Sname, Sphone, SAddress
+    from order
+    where Oid = #{oid,jdbcType=INTEGER}
+  </select>
+	<select resultMap="rlist" id="getAll">
+	SELECT u.*,r.* FROM `order` r INNER JOIN checkout u ON(r.oid=u.orderid)
+	</select>
+	<resultMap id="rlist" autoMapping="true" type="Order">
+		<association resultMap="ulist" javaType="Checkout" property="checkout"/>
+	</resultMap>
+	<resultMap id="ulist" autoMapping="true" type="Checkout"/>
+</mapper>
