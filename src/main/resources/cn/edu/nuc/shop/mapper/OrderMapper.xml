@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.nuc.shop.dao.OrderMapper">
+  <resultMap id="BaseResultMap" type="cn.edu.nuc.shop.entiry.Order">
+    <!-- <id column="Oid" jdbcType="INTEGER" property="oid" /> -->
+    <result column="Sname" jdbcType="VARCHAR" property="sname" />
+    <result column="Sphone" jdbcType="VARCHAR" property="sphone" />
+    <result column="SAddress" jdbcType="VARCHAR" property="saddress" />
+  </resultMap>
+  
+	<select resultMap="rlist" id="getAllOrder">
+	SELECT u.*,r.* FROM `order` r INNER JOIN checkout u ON(r.oid=u.orderid)
+	</select>
+	
+	<resultMap id="rlist" autoMapping="true" type="Order">
+		<association javaType="Checkout" property="checkout" autoMapping="true"/>
+	</resultMap>
+</mapper>

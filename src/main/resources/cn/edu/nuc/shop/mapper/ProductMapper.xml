@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.nuc.shop.dao.ProductMapper">
+  <resultMap id="BaseResultMap" type="cn.edu.nuc.shop.entiry.Product">
+    <id column="pid" jdbcType="INTEGER" property="pid" />
+    <result column="Pname" jdbcType="VARCHAR" property="Pname" />
+    <result column="Pprice" jdbcType="INTEGER" property="Pprice" />
+    <result column="Ppicture" jdbcType="VARCHAR" property="picture" />
+    <result column="Pdescribe" jdbcType="VARCHAR" property="Pdescribe" />    
+    <result column="OrderNum" jdbcType="INTEGER" property="OrderNum" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    pid, Pname, Pprice, Ppicture, Pdescribe,OrderNum
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from product
+    where pid = #{pid,jdbcType=INTEGER}
+  </select>
+  
+   <select id="listProduct"  resultType="cn.edu.nuc.shop.entiry.Product">
+	    select * from product
+  </select>
+  
+  <select id="findByPname" resultType="cn.edu.nuc.shop.entiry.Product">
+  		select
+  			<include refid="Base_Column_List"/>
+  		from product	
+  		where Pname like CONCAT(CONCAT('%', #{value}), '%')
+  </select>
+  
+  <select id="frontlistNew" resultType="cn.edu.nuc.shop.entiry.Product">
+  		select
+  			<include refid="Base_Column_List"/>
+  		from product
+  		order by Pdescribe limit 0,10
+  </select>
+  
+ <insert id="save" parameterType="cn.edu.nuc.shop.entiry.Product">
+ 	insert into product(Ppicture) value(#{Ppicture})
+ </insert>
+  
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from product
+    where pid = #{pid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.edu.nuc.shop.entiry.Product">
+    insert into product (pid, Pname, Pprice, 
+      Ppicture, Pdescribe, 
+      OrderNum)
+    values (#{pid,jdbcType=INTEGER}, #{Pname,jdbcType=VARCHAR}, #{Pprice,jdbcType=DECIMAL}, 
+      #{Ppicture,jdbcType=VARCHAR}, #{Pdescribe,jdbcType=VARCHAR}, 
+      #{OrderNum,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.edu.nuc.shop.entiry.Product">
+    insert into product
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pid != null">
+        pid,
+      </if>
+      <if test="Pname != null">
+        Pname,
+      </if>
+      <if test="Pprice != null">
+        Pprice,
+      </if>
+     
+      <if test="Ppicture != null">
+        Ppicture,
+      </if>
+      <if test="Pdescribe != null">
+        Pdescribe,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pid != null">
+        #{pid,jdbcType=INTEGER},
+      </if>
+      <if test="Pname != null">
+        #{Pname,jdbcType=VARCHAR},
+      </if>
+      <if test="Pprice != null">
+        #{Pprice,jdbcType=INTEGER},
+      </if>
+      
+      <if test="Ppicture != null">
+        #{Ppicture,jdbcType=VARCHAR},
+      </if>
+      <if test="Pdescribe != null">
+        #{Pdescribe,jdbcType=VARCHAR},
+      </if>
+      
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.edu.nuc.shop.entiry.Product">
+    update product
+    <set>
+      <if test="pname != null">
+        Pname = #{Pname,jdbcType=VARCHAR},
+      </if>
+      <if test="Pprice != null">
+        Pprice = #{Pprice,jdbcType=INTEGER},
+      </if>
+      
+      <if test="Ppicture != null">
+        Ppicture = #{Ppicture,jdbcType=VARCHAR},
+      </if>
+      <if test="Pdescribe != null">
+        Pdescribe = #{Pdescribe,jdbcType=VARCHAR},
+      </if>
+      
+    </set>
+    where pid = #{pid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.edu.nuc.shop.entiry.Product">
+    update product
+    set Pname = #{Pname,jdbcType=VARCHAR},
+      Pprice = #{Pprice,jdbcType=INTEGER},
+     
+      Ppicture = #{Ppicture,jdbcType=VARCHAR},
+      Pdescribe = #{Pdescribe,jdbcType=VARCHAR},
+      
+      OrderNum = #{OrderNum,jdbcType=INTEGER}
+    where pid = #{pid,jdbcType=INTEGER}
+  </update>
+  
+  <update id="subProductNumber" parameterType="java.util.Set">
+      <foreach collection="list" item="item" index="index" separator=";">  
+	    UPDATE ignore product 
+	    set OrderNum = OrderNum-#{item.OrderNum} 
+	    WHERE pid = #{item.pid}  and OrderNum >=#{item.OrderNum}
+    </foreach>  
+  </update>
+ 
+</mapper>
